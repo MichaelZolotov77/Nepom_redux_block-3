@@ -1,31 +1,48 @@
 import { legacy_createStore as createStore } from "redux";
 
 // reducer
-const counter = (state = 0, action) => {
-  if (action.type === "INCREMENT") {
-    return state + 1;
+
+const todos = (state = [], action) => {
+  switch (action.type) {
+    case "ADD_TODO": {
+      return [
+        ...state,
+        {
+          id: Date.now(),
+          title: action.title,
+          completed: false,
+        },
+      ];
+    }
+    case "REMOVE_TODO": {
+      return state.filter((todo) => todo.id !== action.id);
+    }
+    case "TOGGLE_TODO": {
+      return state.map((todo) =>
+        todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+      );
+    }
+    default: {
+      return state;
+    }
   }
-  if (action.type === "DECREMENT") {
-    return state - 1;
-  }
-  if (action.type === "RESET") {
-    return 0;
-  }
-  return state;
 };
 
 // store
-export const store = createStore(counter);
+export const store = createStore(todos);
 
-// actions
-export const increment = {
-  type: "INCREMENT",
-};
+// action creators
+export const addTodo = (title) => ({
+  type: "ADD_TODO",
+  title,
+});
 
-export const decrement = {
-  type: "DECREMENT",
-};
+export const removeTodo = (id) => ({
+  type: "REMOVE_TODO",
+  id,
+});
 
-export const reset = {
-  type: "RESET",
-};
+export const toggleTodo = (id) => ({
+  type: "TOGGLE_TODO",
+  id,
+});

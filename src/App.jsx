@@ -1,28 +1,50 @@
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, reset } from "./store";
+import { addTodo, removeTodo, toggleTodo } from "./store";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <h1>Hello Redux</h1>
-      <Counter />
-      <Counter />
+      <h1>Hello Redux Todo</h1>
+      <NewTodo />
+      <TodoList />
     </div>
   );
 }
 
-const Counter = () => {
-  const count = useSelector((state) => state);
+const NewTodo = () => {
   const dispatch = useDispatch();
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(addTodo(event.target.title.value));
+    event.target.reset();
+  };
+
   return (
-    <div>
-      <h2>{count}</h2>
-      <button onClick={() => dispatch(decrement)}>-</button>
-      <button onClick={() => dispatch(increment)}>+</button>
-      <button onClick={() => dispatch(reset)}>reset</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="title" placeholder="new todo" />
+      <input type="submit" value="Add Todo" />
+    </form>
   );
 };
 
-export default App;
+const TodoList = () => {
+  const todos = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  return (
+    <ul>
+      {todos.map((todo) => (
+        <li key={todo.title}>
+          <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => dispatch(toggleTodo(todo.id))}
+          />{" "}
+          {todo.title}{" "}
+          <button onClick={() => dispatch(removeTodo(todo.id))}>delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+};
