@@ -1,4 +1,5 @@
 import { legacy_createStore as createStore } from "redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
 
 // reducer
 
@@ -29,10 +30,7 @@ const todos = (state = [], action) => {
 };
 
 // store
-export const store = createStore(
-  todos,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+export const store = createStore(todos, devToolsEnhancer());
 
 // action creators
 export const addTodo = (title) => ({
