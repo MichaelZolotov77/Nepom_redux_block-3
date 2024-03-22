@@ -2,4 +2,8 @@ import { legacy_createStore as createStore } from "redux";
 import { devToolsEnhancer } from "redux-devtools-extension";
 import { rootReducer } from "./root-reducer";
 
-export const store = createStore(rootReducer, devToolsEnhancer());
+// export const store = createStore(rootReducer, devToolsEnhancer());
+
+export const configureStore = () => {
+  return createStore(rootReducer, devToolsEnhancer());
+};
