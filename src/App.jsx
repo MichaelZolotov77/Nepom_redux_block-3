@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo, removeTodo, toggleTodo } from "./store/actions/todos-actions";
-import { allTodos } from "./store/selectors/todos-selectors";
+import { addTodo, removeTodo, toggleTodo } from "./store2/todos/todos-actions";
+import { allTodos } from "./store2/todos/todos-selectors";
 
 export default function App() {
   return (
